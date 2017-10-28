@@ -3,25 +3,17 @@ var holes = [
   [{x:"106px", y:"262px"}, {x:"322px", y:"262px"}, {x:"522px", y:"262px"}],
   [{x:"97px", y:"362px"}, {x:"322px", y:"362px"}, {x:"544px", y:"362px"}],
 ];
-window.onload = function(){
-	for(var i=0;i<9;i++){
-		var m=document.getElementById("main");
-		m.innerHTML+='<span id="mouse'+i+'" class="mouse normal"></span>';
-	}
-  var main = document.getElementById("main");
-  var mouses = main.getElementsByTagName("span");
-  for(var i=0;i<9;i++){
-  	row=i%3;
-  	col=i/3;
-    mouses[i].onmouseover = mouseOver;
-    mouses[i].onmouseout = mouseOut;
-    mouses[i].onclick = mouseHit;
-    mouses[i] = document.getElementById("mouse"+i);
-    //console.log(mouses[i]);
-    if(i==0){
-    mouses[i].style.left = holes[row][col].x;
-    mouses[i].style.top = holes[row][col].y;	
-    }
+
+var score=0;
+var playing=false;
+var timeid=null;
+var intervalid=null;
+var time=30;
+
+function gameStart(){
+	playing=true;
+	timeShow();
+	addmouse();
 
           
     
@@ -31,6 +23,58 @@ window.onload = function(){
   //tmp
 
 };
+
+function addmouse(){
+	document.getElementById("score").value=score;
+	for(var i=0;i<9;i++){
+		var m=document.getElementById("main");
+		m.innerHTML+='<span id="mouse'+i+'" class="mouse normal"></span>';
+	}
+  var main = document.getElementById("main");
+  var mouses = main.getElementsByTagName("span");
+  for(var i=0;i<9;i++){
+  	row=parseInt(i/3);
+  	col=i%3;
+    mouses[i].onmouseover = mouseOver;
+    mouses[i].onmouseout = mouseOut;
+    mouses[i].onclick = mouseHit;
+    mouses[i].className="mouse hide"
+    mouses[i].hide=true;
+    mouses[i] = document.getElementById("mouse"+i);
+    //console.log(mouses[i]);
+    mouses[i].style.left = holes[row][col].x;
+    mouses[i].style.top = holes[row][col].y;
+    mouses[i].randomshow();
+    mouses[i].nonemouse();
+}
+  }
+
+//随机显示老鼠
+function randomshow(){
+	if(!this.hide){
+		return;
+	}else{
+		this.className="mouse normal";
+		this.hide=false;
+	}
+	
+}
+
+//隐藏老鼠
+function nonemouse(){
+	if(this.hitted||!this.hide){
+		return ;
+	}else{
+		this.hide=false;
+		this.className="mouse hide";
+	}
+}
+
+//
+
+  
+
+
 
 function mouseOver(){
   if(!this.hitted){
@@ -55,42 +99,28 @@ function mouseHit(){
 }
 
 
-var playing=false ;  //判断游戏是否开始
-var score =0;      //得分
-var time =60 ;    //总时间
-timeoutid=null;
-intervalid=null;
-//倒计时
-function timeshow(){
 
-	document.getElementById("time")=time;
+//开始时间
+function timeShow(){
 	if(time==0){
-		alert("游戏结束");
+		timeOver();
 	}else{
-		time=time-1;
-		timeoutid=setTimeout("timeshow()",1000);
-}
-}
-
-//开始游戏
-function gameStart(){
-	playing=true;
-	intervalid = setInterval("showmouse()",2000);
-	document.getElementById("score").value=score;
-	timeshow();
-}
-
-//显示老鼠
-function showmouse(){
-	if(playing==true){
-		var mouse = document.getElementsByTagName("span");
-		mouse.onmouseover = mouseOver;
-    mouse.onmouseout = mouseOut;
-    mouse.onclick = mouseHit;
-    var a=Math.floor(Math.random()*2);
-    var b=Math.floor(Math.random()*2);
-    mouse.style.left = holes[a][b].x;
-    mouse.style.top = holes[a][b].y;
-    setTimeout("mouse.style.display=none",2000);
+		time--;
+		timeid=setTimeout("timeStart()",1000);
+		document.getElementById("time").value=time;
 	}
+}
+
+//停止时间
+function timeStop(){
+	clearTimeout(timeid);
+	clearInterval(intervalid);
+}
+
+//游戏停止
+function gameOver(){
+	playing=false;
+	alert("游戏结束！ 你的得分是"+score);
+	score=0;
+	time=30;
 }

@@ -14,6 +14,7 @@ intervalid1=null;
 function gameStart(){
 	playing=true;
 	intervalid = setInterval("showmouse()",2000);
+	
 	getScore();
 	timeshow();
 }
@@ -26,32 +27,17 @@ function showmouse(){
 		m.innerHTML+='<span id="mouse'+i+'" class="mouse normal"></span>';
 		var mouse =document.getElementById("mouse"+i);
 		mouse.onmouseover = mouseOver;
-      mouse.onmouseout = mouseOut;
-    	mouse.onclick = mouseHit;
-    	var a=Math.floor(Math.random()*3);
-    	var b=Math.floor(Math.random()*3);
-    	mouse.style.left = holes[a][b].x;
-    	mouse.style.top = holes[a][b].y;
-    	setTimeout("yincangmouse()",2000);
+    mouse.onmouseout = mouseOut;
+		mouse.onclick = mouseHit;
+		var a=Math.floor(Math.random()*3);
+		var b=Math.floor(Math.random()*3);
+		mouse.style.left = holes[a][b].x;
+		mouse.style.top = holes[a][b].y;
+		
 	}
 }
 
-function showmouse1(){
-	if(playing==true){
-		var m = document.getElementById("main");
-		var i=Math.floor(Math.random()*100);
-		m.innerHTML='<span id="mouse'+i+'" class="mouse normal"></span>';
-		var mouse =document.getElementById("mouse"+i);
-		mouse.onmouseover = mouseOver;
-      mouse.onmouseout = mouseOut;
-    	mouse.onclick = mouseHit;
-    	mouse.mouseHit();
-    	var a=Math.floor(Math.random()*2);
-    	var b=Math.floor(Math.random()*2);
-    	mouse.style.left = holes[a][b].x;
-    	mouse.style.top = holes[a][b].y;
-	}
-}
+
 //倒计时
 function timeshow(){
 
@@ -68,10 +54,10 @@ function timeshow(){
 function gameOver(){
 	if(time==0){
 		playing=false;
-
+		
 		time=30;
 		alert("游戏结束！你的得分是"+score);
-				score=0;
+		score=0;
 		timestop();
 		clearmouse();
 		
@@ -88,7 +74,7 @@ function timestop(){
 //清除老鼠
 function clearmouse(){
 	if(this.hitted){
-		this.className="mouse hide";
+		this.parentNode.removeChild(this);
 	}
 }
 
@@ -114,18 +100,24 @@ function mouseOut(){
 }
 
 function mouseHit(){
-  this.className = "mouse hit";
+  this.className="mouse hit";
   this.hitted = true; //flag
-  var count = document.getElementById("count");
+  //console.log(this);
+  //var count = document.getElementById("count");
   var x = parseInt(this.style.left);
   count.style.left = (x+36) + "px";
   count.style.top = this.style.top;
   count.style.display = "block";
-  this.score++;
-  document.getElementById("score").value=this.score;
-  this.parentNode.removeChild(this);
+  score++;
+  document.getElementById("score").value=score;
   setTimeout("yincangcount()",500);
   
+  setTimeout(function(){
+  	var mouse = document.getElementsByTagName("span");
+  	console.log(mouse);
+  	mouse[0].parentNode.removeChild(mouse[0]);
+},1000);
+  //this.parentNode.removeChild(this);
 }
 
 //隐藏count
@@ -134,9 +126,4 @@ function yincangcount(){
 	count.style.display="none";
 }
 
-//
-function yincangmouse(){
-	if(!this.hitted){
-		this.parentNode.removeChild(this);
-	}
-}
+

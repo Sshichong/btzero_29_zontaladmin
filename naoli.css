@@ -1,0 +1,91 @@
+
+#star{
+	clear: both;
+	padding-left: 150px;
+	padding-top: 0px;
+}
+#main-mian{
+	position: absolute;
+	margin-left: 300px;
+
+}
+#tishi{
+	position: absolute;
+	text-align: center;
+	font-size: 100px;
+	
+}
+strong.jiacu{
+	color: red;
+}
+#main{
+	align-content: center;
+	
+}
+#img_1{
+	float: left;
+	padding: 20px;
+	margin-right:1px;
+	border: solid;
+}
+#img_2{
+	float: left;
+	padding: 20px;
+	margin-right:1px;
+	border: solid;
+/*	width: 30px;
+	height: 60px;*/
+}
+#img_3{
+	float: left;
+	padding: 20px;
+	margin-right:1px;
+	border: solid;
+/*	width: 30px;
+	height: 60px;*/
+}
+#img_4{
+	float: left;
+	padding: 20px;
+	margin-right:1px;
+	border: solid;
+/*	width: 30px;
+	height: 60px;*/
+}
+#bottom{
+	clear: both;
+}
+p{
+	font-size:30px ;
+}
+#diary{
+	
+}
+#left{
+	float: left;
+}
+#center{
+	float: left;
+	padding-bottom: 0px;
+}
+#content{
+	margin: 35px;
+	width: 260px;
+	height: 250px;
+	padding: 30px;
+	border: dashed;
+}
+#right{
+	float: left;
+}
+#houxuan{
+	border: 1px;
+}
+#timebox{
+	border: solid;
+	border-color: #67B168;
+	width: 120px;
+	height: 40px;
+	margin-top: 50px;
+    margin-left: 30px;
+}
